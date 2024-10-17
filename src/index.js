@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 const checkbox = e.target.closest('.checklist');
                 if (checkbox) {
                     const editLogo = checkbox.parentElement.querySelector('.editLogo');
-                    const activeObjGeneral = allTodos.find((obj) => obj.uuid === editLogo.id);
+                    const activeObjGeneral = webStorage().allTodoSession.find((obj) => obj.uuid === editLogo.id);
         
                     checkbox.setAttribute('aria-checked', 'true');
                     activeObjGeneral.checklist = true;
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
         const allProjectList = document.querySelectorAll('.projLabel .count');
         allProjectList.forEach((projCount, index) => {
-            projCount.textContent = track.get(allProjects[index]);
+            projCount.textContent = track.get(allProjectSession[index]);
         })
     })
     observerTwo.observe(todoList, {childList:true});
@@ -135,7 +135,7 @@ addTodoForm.addEventListener('submit', (e) => {
             const editLogo = e.target.closest('.editLogo');
             const outerWrapper = editLogo.closest('.outerWrapper');
             const wrapper = outerWrapper.querySelector('.wrapperTodo');
-            const activeObjGeneral = allTodos.find((obj) => obj.uuid === editLogo.id);
+            const activeObjGeneral = webStorage().allTodoSession.find((obj) => obj.uuid === editLogo.id);
             removeActiveEdit();
 
             editLogo.classList.add('active');
@@ -160,8 +160,8 @@ addTodoForm.addEventListener('submit', (e) => {
                 deleteEdit.addEventListener('click', (e) => {
                     e.preventDefault();
                     // const toDel = allTodos.find((obj) => obj.uuid === elementId);
-                    const index = allTodos.indexOf(activeObjGeneral);
-                    allTodos.splice(index, 1);
+                    const index = webStorage().allTodoSession.indexOf(activeObjGeneral);
+                    webStorage().allTodoSession.splice(index, 1);
                     // displayTodos(displayTask, displayPage(activeObjGeneral.dueDate, activeObjGeneral.project).header)
                     displayTodos(displayPage(activeObjGeneral.dueDate, activeObjGeneral.project).map, menuTitle.textContent);
 
@@ -224,5 +224,5 @@ renameProjForm.addEventListener('submit', (e) => {
     placeHolder.appendChild(renameProjForm);
     preProjName.classList.remove('hiddenRenameForm');
     dropDownProjectFn();
-    displayTodos(allTodos, newName);
+    displayTodos(webStorage().allTodoSession, newName);
 })

@@ -1,6 +1,7 @@
 import { allTodos } from "./todos";
 import { allProjects } from "./project";
 import { filterTasks } from "./displayTask";
+import { allProjectSession, allTodoSession } from "./storage";
 
 function countList() {
     const countTracker = new Map();
@@ -13,7 +14,7 @@ function countList() {
     countTracker.set('Overdue', overdueLength);
     countTracker.set('Completed', completedLength);
 
-    allProjects.forEach((project) => {
+    allProjectSession.forEach((project) => {
         const projectLength = filterTasks().projectTasks(project).length;
         countTracker.set(project, projectLength);
     })

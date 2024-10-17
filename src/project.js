@@ -2,7 +2,7 @@ import { parseISO } from "date-fns";
 import { displayTask } from "./displayTask";
 import { displayTodos } from "./displayTodos";
 import { allTodos } from "./todos";
-import { webStorage } from "./storage";
+import { webStorage, allProjectSession, allTodoSession } from "./storage";
 
 class Project {
     constructor(projectTitle, todoList = []) {
@@ -16,17 +16,19 @@ let allProjects = [];
 function createProjectFn() {
     const projectTitleInput = document.querySelector('#ProjectTitleInput').value;
     allProjects.push(projectTitleInput);
+    const allProjectSession = webStorage().allProjectSession;
+    const allTodoSession = webStorage().allTodoSession;
     
-    projectLabelsFn();
-    dropDownProjectFn();
-    displayTodos(allTodos, projectTitleInput);
+    projectLabelsFn(allProjectSession);
+    dropDownProjectFn(allProjectSession);
+    displayTodos(allTodoSession, projectTitleInput);
 }
 
-function dropDownProjectFn() {
+function dropDownProjectFn(allProjectSession) {
     const projectSeg = document.querySelector('.projectsSeg');
     projectSeg.innerHTML = "";    
 
-    allProjects.forEach((item) => {
+    allProjectSession.forEach((item) => {
         const projKey = document.createElement('option');
         projKey.setAttribute('value', item);
         projKey.textContent = item;
@@ -35,11 +37,11 @@ function dropDownProjectFn() {
     return projectSeg;
 }
 
-function projectLabelsFn() {
+function projectLabelsFn(allProjectSession) {
     const projectLabels = document.querySelector('.projectLabels');
     projectLabels.innerHTML = "";  
 
-    allProjects.forEach((item) => {
+    allProjectSession.forEach((item) => {
         const projectLabel = document.createElement('div');
         projectLabel.setAttribute('class', 'projLabel');
 
@@ -156,10 +158,10 @@ function renameP(projName) {
     const newName = document.querySelector('.renameProjInput').value;
     let renamed = projName.textContent;
     const object = allTodos.find((obj) => obj.project === renamed);
-    let prevNameIndex = allProjects.findIndex((project) => project === renamed);
+    let prevNameIndex = allProjectSession.findIndex((project) => project === renamed);
    
     if (prevNameIndex !== -1) {
-        allProjects[prevNameIndex] = newName
+        allProjectSession[prevNameIndex] = newName
         projName.textContent = newName;
     }
     if (object) {
@@ -170,12 +172,12 @@ function renameP(projName) {
 }
 
 function deleteP(projName) {
-    const index = allProjects.indexOf(projName.textContent);
-    allProjects.splice(index, 1);
-    allTodos.splice(0, allTodos.length, ...allTodos.filter((obj) => obj.project !== projName.textContent));
+    const index = allProjectSession.indexOf(projName.textContent);
+    allProjectSession.splice(index, 1);
+    allTodoSession.splice(0, allTodos.length, ...allTodos.filter((obj) => obj.project !== projName.textContent));
 }
 
 
 
 
-export {allProjects, createProjectFn, dropDownProjectFn, renameP};
+export {allProjectSession, createProjectFn, dropDownProjectFn, renameP};
