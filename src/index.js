@@ -1,12 +1,11 @@
+import "./style.css";
 import { displayTask } from "./displayTask";
 import { displayTodos, restrictDisplay, presetSelection } from "./displayTodos";
-import { displayPage } from "./dynamicSwitch";
-import { allProjects, createProjectFn, dropDownProjectFn, renameP } from "./project";
-import "./style.css";
+import { createProjectFn, dropDownProjectFn, renameP } from "./project";
 import { allTodos, createTodo } from "./todos";
-import { formatDate, startOfDay, startOfToday } from "date-fns";
-import { createEditForm, presetEditForm, removeActiveEdit, displayEditForm } from "./editForm";
-import { countList, countExecutor } from "./taskCounter";
+import { formatDate, startOfToday } from "date-fns";
+import { displayEditForm } from "./editForm";
+import { countExecutor } from "./taskCounter";
 import { webStorage } from "./storage";
 import { projectLabelsFn } from "./project";
 import { checklistEvent } from "./checklist";
@@ -118,9 +117,7 @@ addTodoForm.addEventListener('submit', (e) => {
     addTodoForm.reset();
 
     displayEditForm(todoList);
-
 })
-
 
 all.addEventListener('click', () => {
     displayTodos(displayTask, "All");
@@ -138,7 +135,6 @@ completed.addEventListener('click', () => {
     displayTodos(displayTask, "Completed");
     restrictDisplay(menuTitle.textContent);
 })
-
 
 createProject.addEventListener('click', () => {
     projectDialog.style.display = "grid";

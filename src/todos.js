@@ -1,5 +1,3 @@
-import { formatDate, startOfDay, startOfToday } from "date-fns";
-import { allProjects } from "./project";
 import { displayPage } from "./dynamicSwitch";
 import ShortUniqueId from 'short-unique-id';
 import { webStorage } from "./storage";

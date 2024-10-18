@@ -1,7 +1,5 @@
-import { allTodos } from "./todos";
 import { allProjects } from "./project";
 import { filterTasks } from "./displayTask";
-// import { allProjectSession, allTodoSession } from "./storage";
 
 function countList() {
     const countTracker = new Map();

@@ -1,9 +1,6 @@
 import { allProjects } from "./project";
-import { allTodos } from "./todos";
-import { format, isPast, isToday, isTomorrow, isYesterday } from "date-fns";
-import { createEditForm } from "./editForm";
-import { dropDownProjectFn } from "./project";
-import { displayTask, filterTasks } from "./displayTask";
+import { format, isToday, isTomorrow, isYesterday } from "date-fns";
+import { filterTasks } from "./displayTask";
 
 function displayTodos(array, header) {
     const todosDisplay = document.querySelector('.todoList');

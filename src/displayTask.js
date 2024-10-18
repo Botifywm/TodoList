@@ -1,9 +1,5 @@
 import { allTodos } from "./todos";
 import {isPast, isToday } from "date-fns";
-// import { allTodoSession } from "./storage";
-
-// let todoSession = JSON.parse((localStorage.getItem('allTodos')));
-// allTodos.splice(0, allTodos.length, ...todoSession);
 
 function filterTasks () {
     const allTask = () => allTodos.filter((obj) => obj.checklist === false);
