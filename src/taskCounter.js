@@ -1,7 +1,7 @@
 import { allTodos } from "./todos";
 import { allProjects } from "./project";
 import { filterTasks } from "./displayTask";
-import { allProjectSession, allTodoSession } from "./storage";
+// import { allProjectSession, allTodoSession } from "./storage";
 
 function countList() {
     const countTracker = new Map();
@@ -14,7 +14,7 @@ function countList() {
     countTracker.set('Overdue', overdueLength);
     countTracker.set('Completed', completedLength);
 
-    allProjectSession.forEach((project) => {
+    allProjects.forEach((project) => {
         const projectLength = filterTasks().projectTasks(project).length;
         countTracker.set(project, projectLength);
     })
@@ -22,4 +22,22 @@ function countList() {
     return {countTracker};
 }
 
-export {countList};
+function countExecutor() {
+    let allCount = document.querySelector('.all .count');
+    let todayCount = document.querySelector('.today .count');
+    let overdueCount = document.querySelector('.overdue .count');
+    let completedCount = document.querySelector('.completed .count');
+
+    const track = countList().countTracker;
+    allCount.textContent = track.get('All');
+    todayCount.textContent = track.get('Today');
+    overdueCount.textContent = track.get('Overdue');
+    completedCount.textContent = track.get('Completed');
+
+    const allProjectList = document.querySelectorAll('.projLabel .count');
+    allProjectList.forEach((projCount, index) => {
+        projCount.textContent = track.get(allProjects[index]);
+    })
+}
+
+export {countList, countExecutor};

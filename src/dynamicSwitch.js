@@ -1,7 +1,6 @@
 import { isToday } from "date-fns";
 import { displayTask } from "./displayTask";
 import { allTodos } from "./todos";
-import { allTodoSession } from "./storage";
 
 function displayPage(date, projectKey) {
     let header = 'All';
@@ -14,7 +13,7 @@ function displayPage(date, projectKey) {
     }
     else {
         header = projectKey;
-        map = allTodoSession;
+        map = allTodos;
     }
     return {header, map};
 }

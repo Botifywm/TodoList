@@ -1,13 +1,16 @@
 import { allTodos } from "./todos";
 import {isPast, isToday } from "date-fns";
-import { allTodoSession } from "./storage";
+// import { allTodoSession } from "./storage";
+
+// let todoSession = JSON.parse((localStorage.getItem('allTodos')));
+// allTodos.splice(0, allTodos.length, ...todoSession);
 
 function filterTasks () {
-    const allTask = () => allTodoSession.filter((obj) => obj.checklist === false);
-    const todayTask = () => allTodoSession.filter((obj) => isToday(obj.dueDate) && obj.checklist === false);
-    const overdueTask = () => allTodoSession.filter((obj) => isPast(obj.dueDate) && !isToday(obj.dueDate) && obj.checklist === false);
-    const completedTasks = () => allTodoSession.filter((obj) => obj.checklist === true);
-    const projectTasks = (header) => allTodoSession.filter((obj) => obj.project === header && obj.checklist === false);
+    const allTask = () => allTodos.filter((obj) => obj.checklist === false);
+    const todayTask = () => allTodos.filter((obj) => isToday(obj.dueDate) && obj.checklist === false);
+    const overdueTask = () => allTodos.filter((obj) => isPast(obj.dueDate) && !isToday(obj.dueDate) && obj.checklist === false);
+    const completedTasks = () => allTodos.filter((obj) => obj.checklist === true);
+    const projectTasks = (header) => allTodos.filter((obj) => obj.project === header && obj.checklist === false);
 
     return {allTask, todayTask, overdueTask, completedTasks, projectTasks}
 

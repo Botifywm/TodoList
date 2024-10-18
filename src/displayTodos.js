@@ -4,7 +4,6 @@ import { format, isPast, isToday, isTomorrow, isYesterday } from "date-fns";
 import { createEditForm } from "./editForm";
 import { dropDownProjectFn } from "./project";
 import { displayTask, filterTasks } from "./displayTask";
-import { allProjectSession } from "./storage";
 
 function displayTodos(array, header) {
     const todosDisplay = document.querySelector('.todoList');
@@ -135,7 +134,7 @@ function restrictDisplay(menuTitle) {
 
 function presetSelection(menuTitle) {
     let projectHeader = "General";
-    if(allProjectSession.includes(menuTitle)){
+    if(allProjects.includes(menuTitle)){
         projectHeader = menuTitle;
     }
     return projectHeader;

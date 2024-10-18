@@ -2,7 +2,7 @@ import { parseISO } from "date-fns";
 import { displayTask } from "./displayTask";
 import { displayTodos } from "./displayTodos";
 import { allTodos } from "./todos";
-import { webStorage, allProjectSession, allTodoSession } from "./storage";
+import { webStorage } from "./storage";
 
 class Project {
     constructor(projectTitle, todoList = []) {
@@ -11,24 +11,27 @@ class Project {
     }
 }
 
+const projectSession = JSON.parse((localStorage.getItem('allProjects')));
 let allProjects = [];
+if (projectSession) {
+    allProjects.splice(0, projectSession.length, ...projectSession);
+}
 
 function createProjectFn() {
     const projectTitleInput = document.querySelector('#ProjectTitleInput').value;
     allProjects.push(projectTitleInput);
-    const allProjectSession = webStorage().allProjectSession;
-    const allTodoSession = webStorage().allTodoSession;
+    webStorage();
     
-    projectLabelsFn(allProjectSession);
-    dropDownProjectFn(allProjectSession);
-    displayTodos(allTodoSession, projectTitleInput);
+    projectLabelsFn();
+    dropDownProjectFn();
+    displayTodos(allTodos, projectTitleInput);
 }
 
-function dropDownProjectFn(allProjectSession) {
+function dropDownProjectFn() {
     const projectSeg = document.querySelector('.projectsSeg');
     projectSeg.innerHTML = "";    
 
-    allProjectSession.forEach((item) => {
+    allProjects.forEach((item) => {
         const projKey = document.createElement('option');
         projKey.setAttribute('value', item);
         projKey.textContent = item;
@@ -37,11 +40,11 @@ function dropDownProjectFn(allProjectSession) {
     return projectSeg;
 }
 
-function projectLabelsFn(allProjectSession) {
+function projectLabelsFn() {
     const projectLabels = document.querySelector('.projectLabels');
     projectLabels.innerHTML = "";  
 
-    allProjectSession.forEach((item) => {
+    allProjects.forEach((item) => {
         const projectLabel = document.createElement('div');
         projectLabel.setAttribute('class', 'projLabel');
 
@@ -151,33 +154,35 @@ function projectLabelsFn(allProjectSession) {
 
         projectLabels.appendChild(projectLabel);
     })
-
+console.log("just start label proj")
 }
 
 function renameP(projName) {
     const newName = document.querySelector('.renameProjInput').value;
     let renamed = projName.textContent;
     const object = allTodos.find((obj) => obj.project === renamed);
-    let prevNameIndex = allProjectSession.findIndex((project) => project === renamed);
+    let prevNameIndex = allProjects.findIndex((project) => project === renamed);
    
     if (prevNameIndex !== -1) {
-        allProjectSession[prevNameIndex] = newName
+        allProjects[prevNameIndex] = newName
         projName.textContent = newName;
     }
     if (object) {
         object.project = newName;
     }
+    webStorage();
 
     return {newName}
 }
 
 function deleteP(projName) {
-    const index = allProjectSession.indexOf(projName.textContent);
-    allProjectSession.splice(index, 1);
-    allTodoSession.splice(0, allTodos.length, ...allTodos.filter((obj) => obj.project !== projName.textContent));
+    const index = allProjects.indexOf(projName.textContent);
+    allProjects.splice(index, 1);
+    allTodos.splice(0, allTodos.length, ...allTodos.filter((obj) => obj.project !== projName.textContent));
+    webStorage();
 }
 
 
 
 
-export {allProjectSession, createProjectFn, dropDownProjectFn, renameP};
+export {allProjects, createProjectFn, dropDownProjectFn, renameP, projectLabelsFn};

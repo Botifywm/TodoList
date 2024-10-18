@@ -1,4 +1,5 @@
 import { dropDownProjectFn } from "./project";
+import { allTodos } from "./todos";
 
 function createEditForm() {
     const template = document.createElement('template');
@@ -63,5 +64,54 @@ function presetEditForm(outerWrapper, priority, title, notes, dueDate, project) 
     return {newName, newNotes, newDate, projectEdit}
 }
 
+function displayEditForm(targetElement) {
+    targetElement.addEventListener('click', (e) => {
+        if (e.target.closest('.editLogo')) {
+            const editLogo = e.target.closest('.editLogo');
+            const outerWrapper = editLogo.closest('.outerWrapper');
+            const wrapper = outerWrapper.querySelector('.wrapperTodo');
+            const activeObjGeneral = allTodos.find((obj) => obj.uuid === editLogo.id);
+            removeActiveEdit();
+    
+            editLogo.classList.add('active');
+            if (editLogo.classList.contains('active')){
+                wrapper.style.display = "none";
+                wrapper.classList.add('editing');
+                const presets = presetEditForm(outerWrapper, activeObjGeneral.priority, activeObjGeneral.title, activeObjGeneral.notes, activeObjGeneral.dueDate, activeObjGeneral.project);
+                const saveEdit = document.querySelector('.saveEdit')
+                saveEdit.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const selectedPriority = document.querySelector('input[name="pList"]:checked')
+                    activeObjGeneral.title = presets.newName.value; 
+                    activeObjGeneral.notes = presets.newNotes.value;
+                    activeObjGeneral.priority = selectedPriority.value;
+                    activeObjGeneral.dueDate = presets.newDate.value;
+                    activeObjGeneral.project = presets.projectEdit.value;
+                    removeActiveEdit();
+                    displayTodos(displayPage(activeObjGeneral.dueDate, activeObjGeneral.project).map , displayPage(activeObjGeneral.dueDate, activeObjGeneral.project).header)
+                })
+    
+                const deleteEdit = document.querySelector('.delete')
+                deleteEdit.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // const toDel = allTodos.find((obj) => obj.uuid === elementId);
+                    const index = allTodos.indexOf(activeObjGeneral);
+                    allTodos.splice(index, 1);
+                    // displayTodos(displayTask, displayPage(activeObjGeneral.dueDate, activeObjGeneral.project).header)
+                    displayTodos(displayPage(activeObjGeneral.dueDate, activeObjGeneral.project).map, menuTitle.textContent);
+    
+                })
+    
+                const cancelEdit = document.querySelector('.cancelEdit')
+                cancelEdit.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    removeActiveEdit();
+                })
+            }
+        }
+        
+    })
+}
 
-export {createEditForm, removeActiveEdit, presetEditForm};
+
+export {createEditForm, removeActiveEdit, presetEditForm, displayEditForm};

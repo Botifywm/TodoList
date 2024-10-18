@@ -5,10 +5,9 @@ import { allTodos } from "./todos";
 function webStorage() {
     localStorage.setItem("allTodos", JSON.stringify(allTodos));
     localStorage.setItem("allProjects", JSON.stringify(allProjects));
-    let allTodoSession = JSON.parse(localStorage.getItem('allTodos'));
-    let allProjectSession = JSON.parse(localStorage.getItem('allProjects'));
-
-    return {allProjectSession, allTodoSession}
+    // let allTodoSession = JSON.parse(localStorage.getItem('allTodos'));
+    // let allProjectSession = JSON.parse(localStorage.getItem('allProjects'));
+    // return {allProjectSession, allTodoSession}
 }
 
 export {webStorage}

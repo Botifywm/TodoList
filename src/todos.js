@@ -17,7 +17,12 @@ class Todo {
     }
 }
 
+const todoSession = JSON.parse((localStorage.getItem('allTodos')));
 let allTodos = [];
+if (todoSession) {
+   allTodos.splice(0, allTodos.length, ...todoSession);
+}
+
 
 // generate unique id
 const uid = new ShortUniqueId({ length: 10 });
