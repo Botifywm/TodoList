@@ -509,7 +509,6 @@ button[role="checkbox"]:hover::after {
   }
 
   .menubarContainer {
-    box-sizing: border-box;
     padding-left: 0.5rem;
     font-size: 0.7rem;
   }
@@ -522,7 +521,22 @@ button[role="checkbox"]:hover::after {
     font-size: 0.8rem;
   }
 
-  #createProject {
+  #createProject,
+  .areaInput {
+    font-size: 0.7rem;
+  }
+
+  .formMenu {
+    padding-left: 0.2rem;
+  }
+
+  .titleInput,
+  .notesInput,
+  .dateInput,
+  .priorityInput,
+  .projectInput,
+  .ctrl {
+    max-width: 85%;
     font-size: 0.7rem;
   }
 }
